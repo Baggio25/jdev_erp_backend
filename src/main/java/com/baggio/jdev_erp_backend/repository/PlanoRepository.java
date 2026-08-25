@@ -1,6 +1,7 @@
 package com.baggio.jdev_erp_backend.repository;
 
 
+import com.baggio.jdev_erp_backend.anotations.IgnoreEmpresaId;
 import com.baggio.jdev_erp_backend.model.Plano;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.Modifying;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@IgnoreEmpresaId
 @Repository
 public interface PlanoRepository extends MyBaseRepository<Plano, Long> {
 
