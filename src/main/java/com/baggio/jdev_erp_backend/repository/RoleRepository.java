@@ -2,9 +2,49 @@ package com.baggio.jdev_erp_backend.repository;
 
 import com.baggio.jdev_erp_backend.anotations.IgnoreEmpresaId;
 import com.baggio.jdev_erp_backend.model.Role;
+
+import jakarta.transaction.Transactional;
+
+import java.util.List;
+
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 @IgnoreEmpresaId
 @Repository
 public interface RoleRepository extends MyBaseRepository<Role, Long> {
+  /*
+	 * Busca todos os roles
+	 */
+	@Query("select r from Role r")
+	List<Role> findAll();
+
+	
+	/*Busca os roles por partes ou acesso completo passado por parametro*/
+	@Query("select r from Role r "
+								+ " where upper(trim(r.acesso)) "
+								+ " like upper(concat('%', trim(:acesso) ,'%'))")
+	List<Role> buscaPorAcesso(@Param("acesso") String acesso);
+	
+	
+	/*Retorna true se já existir role com o mesmo acesso, no caso não podemos deixar salvar para não ficar repetido no banco de dados*/
+	@Query("select count(r.id) > 0 from Role r "
+			+ " where upper(trim(r.acesso)) "
+			+ " = upper(trim(:acesso))")
+	boolean existePorAcesso(@Param("acesso") String acesso);
+	
+	/*Verifica se existe outro role no banco de dados com o mesmo acesso mas ID diferentes da que está tentando atualizar*/
+	@Query("select count(r.id) > 0 from Role r "
+			+ " where upper(trim(r.acesso)) "
+			+ " = upper(trim(:acesso))) and r.id <> :i")
+    boolean existePorAcessoDiferenteId(@Param("id") Long id, @Param("acesso") String acesso);	
+	
+	/*Delete de um role*/
+	@Transactional
+	@Modifying(flushAutomatically = true, clearAutomatically = true)
+	@Query("delete from Role r where r.id = :id")
+	void deleteById(@Param("id") Long id);
+
 }
