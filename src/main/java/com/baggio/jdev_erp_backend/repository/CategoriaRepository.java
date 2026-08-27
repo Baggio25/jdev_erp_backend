@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface CategoryRepository extends MyBaseRepository<Categoria, Long> {
+public interface CategoriaRepository extends MyBaseRepository<Categoria, Long> {
 
     /*
      * Busca todas as categorias da empresa passada como parametro
