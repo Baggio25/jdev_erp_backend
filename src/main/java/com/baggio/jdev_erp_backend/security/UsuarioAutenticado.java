@@ -1,0 +1,58 @@
+package com.baggio.jdev_erp_backend.security;
+
+import java.util.Collection;
+
+import org.jspecify.annotations.Nullable;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import com.baggio.jdev_erp_backend.model.Usuario;
+
+public class UsuarioAutenticado implements UserDetails {
+
+  private final Usuario usuario;
+
+  public UsuarioAutenticado(Usuario usuario) {
+    this.usuario = usuario;
+  }
+
+  public Usuario getUsuario() {
+    return usuario;
+  }
+
+  @Override
+  public Collection<? extends GrantedAuthority> getAuthorities() {
+    return usuario.getAuthorities();
+  }
+
+  @Override
+  public @Nullable String getPassword() {
+    return usuario.getPassword();
+  }
+
+  @Override
+  public String getUsername() {
+    return usuario.getLogin();
+  }
+
+  @Override
+  public boolean isAccountNonExpired() {
+    return usuario.isAccountNonExpired();
+  }
+
+  @Override
+  public boolean isAccountNonLocked() {
+    return usuario.isAccountNonLocked();
+  }
+
+  @Override
+  public boolean isCredentialsNonExpired() {
+    return usuario.isCredentialsNonExpired();
+  }
+
+  @Override
+  public boolean isEnabled() {
+    return usuario.isEnabled();
+  }
+
+}
