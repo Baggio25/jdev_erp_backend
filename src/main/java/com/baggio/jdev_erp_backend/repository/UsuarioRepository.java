@@ -75,5 +75,4 @@ public interface UsuarioRepository extends MyBaseRepository<Usuario, Long> {
 	@Query("update Usuario set tokenSessao = :token where id = :id and empresa.id = :idEmpresa")
 	void updateTokenSessaoLogin(@Param("id") Long id, @Param("token") String token, @Param("idEmpresa") Long idEmpresa);
 
-
 }
