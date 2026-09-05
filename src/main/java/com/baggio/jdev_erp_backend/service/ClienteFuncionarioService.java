@@ -14,6 +14,10 @@ public class ClienteFuncionarioService {
     @Autowired
     private ClienteFuncionarioRepository clienteFuncionarioRepository;
 
+    public ClienteFuncionario salvar(ClienteFuncionario clienteFuncionario) {
+        return clienteFuncionarioRepository.saveAndFlush(clienteFuncionario);
+    }
+
     public List<ClienteFuncionario> findAll(Long idEmpresa) {
         return clienteFuncionarioRepository.findAll(idEmpresa);
     }
